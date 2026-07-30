@@ -1,0 +1,30 @@
+name: Build Linux
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: |
+          pip install pyinstaller customtkinter
+
+      - name: Build
+        run: |
+          pyinstaller --onefile Expense_Tracker.py
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Expense-Tracker-Linux
+          path: dist/*
